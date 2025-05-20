@@ -8,25 +8,33 @@
 #include "chunk.h"
 #include "table.h"
 #include "value.h"
+#include "vm.h"
+#include "object.h"
+
+/**
+ * The maximum number of call frames that can exist in the stack
+ * at any given time.
+ */
+#define FRAMES_MAX 64
 
 /**
  * The maximum number of values that can be stored in the
  * stack at any given time.
  */
-#define STACK_MAX 256
+#define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
+
+typedef struct {
+    ObjFunction* function;
+    uint8_t* ip;
+    Value* slots;
+} CallFrame;
 
 /**
  * @brief The virtual machine that will execute program instructions.
  */
 typedef struct {
-    /**
-     * @brief The chunk which contains bytecode instructions.
-     */
-    Chunk chunk;
-    /**
-     * @brief The instruction pointer.
-     */
-    uint8_t *ip;
+    CallFrame frames[FRAMES_MAX];
+    int frameCount;
     /**
      * @brief The virtual machine stack.
      */

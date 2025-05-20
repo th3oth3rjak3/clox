@@ -5,14 +5,14 @@
 #ifndef COMPILER_H
 #define COMPILER_H
 
+#include "object.h"
 #include "vm.h"
 
 /**
  * @brief Compile source code into runnable clox code.
  * @param source Source code provided by the user.
- * @param chunk The chunk to write to.
  * @return True when compilation is successful, otherwise false.
  */
-bool compile(const char *source, Chunk *chunk);
+ObjFunction* compile(const char* source);
 
 #endif //COMPILER_H

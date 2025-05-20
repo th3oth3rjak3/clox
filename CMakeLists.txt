@@ -3,7 +3,12 @@ project(clox C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(clox main.c
+# Set custom compiler flags
+set(CMAKE_C_FLAGS_RELEASE "-O3 -DNDEBUG -s")
+
+# Add your executable
+add_executable(clox
+        main.c
         common.h
         compiler.h
         debug.h
@@ -22,4 +27,11 @@ add_executable(clox main.c
         compiler.c
         scanner.c
         object.c
-        table.c)
+        table.c
+)
+
+# Remove debug macros in Release
+target_compile_definitions(clox
+        PRIVATE
+        $<$<CONFIG:Debug>:DEBUG_PRINT_CODE;DEBUG_TRACE_EXECUTION>
+)

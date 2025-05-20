@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "vm.h"
+#include "object.h"
 
 static void repl() {
     char line[1024];
